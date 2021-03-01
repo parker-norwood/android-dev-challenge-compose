@@ -26,9 +26,12 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,16 +63,19 @@ fun MyApp() {
 
     MaterialTheme {
         Surface(color = MaterialTheme.colors.background) {
-            NavHost(navController = navController, startDestination = "dogFeed") {
-                composable("dogFeed") { DogFeed(navController = navController, dogs = dogs) }
-                composable(
-                    "dogProfile/{id}",
-                    arguments = listOf(navArgument("id") { type = NavType.IntType })
-                ) { backStackEntry ->
-                    DogProfile(
-                        navController = navController,
-                        dog = dogs[backStackEntry.arguments?.getInt("id")!!]
-                    )
+            Scaffold(
+                topBar = {
+                    TopAppBar(title = { Text(text = "Adopt a \uD83D\uDC36") })
+                }
+            ) {
+                NavHost(navController = navController, startDestination = "dogFeed") {
+                    composable("dogFeed") { DogFeed(navController = navController, dogs = dogs) }
+                    composable(
+                        "dogProfile/{id}",
+                        arguments = listOf(navArgument("id") { type = NavType.IntType })
+                    ) { backStackEntry ->
+                        DogProfile(dog = dogs[backStackEntry.arguments?.getInt("id")!!])
+                    }
                 }
             }
         }
@@ -131,7 +137,7 @@ fun DogCard(dog: Dog, onClick: () -> Unit) {
 }
 
 @Composable
-fun DogProfile(navController: NavController, dog: Dog) {
+fun DogProfile(dog: Dog) {
 
     @Composable
     fun SideBySideText(leftText: String, rightText: String) {
@@ -237,19 +243,3 @@ fun DogProfile(navController: NavController, dog: Dog) {
         }
     }
 }
-
-//@Preview("Light Theme", widthDp = 360, heightDp = 640)
-//@Composable
-//fun LightPreview() {
-//    MyTheme {
-//        MyApp()
-//    }
-//}
-
-//@Preview("Dark Theme", widthDp = 360, heightDp = 640)
-//@Composable
-//fun DarkPreview() {
-//    MyTheme(darkTheme = true) {
-//        MyApp()
-//    }
-//}
