@@ -18,19 +18,26 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.*
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
@@ -48,54 +55,20 @@ class MainActivity : AppCompatActivity() {
 // Start building your app here!
 @Composable
 fun MyApp() {
+    val navController = rememberNavController()
+    val dogs = MockDogs.dogs
+
     MaterialTheme {
         Surface(color = MaterialTheme.colors.background) {
-            LazyColumn {
-                item {
-                    DogCard(
-                        Dog(
-                            name = "Pupper",
-                            age = 7,
-                            isMonths = true,
-                            sex = Dog.Sex.MALE,
-                            imageId = R.drawable.pexels_dominika_roseclay_2023384
-                        )
-                    )
-                }
-
-                item {
-                    DogCard(
-                        Dog(
-                            name = "Shoop",
-                            age = 1,
-                            isMonths = false,
-                            sex = Dog.Sex.FEMALE,
-                            imageId = R.drawable.pexels_helena_lopes_4453055
-                        )
-                    )
-                }
-
-                item {
-                    DogCard(
-                        Dog(
-                            name = "Darth Shibe",
-                            age = 2,
-                            isMonths = false,
-                            sex = Dog.Sex.MALE,
-                            imageId = R.drawable.pexels_sean_siow_6495165
-                        )
-                    )
-                }
-
-                item {
-                    DogCard(
-                        Dog(
-                            name = "Snow Doggo",
-                            age = 4,
-                            isMonths = false,
-                            sex = Dog.Sex.MALE,
-                            imageId = R.drawable.pexels_kateryna_babaieva_3715587
-                        )
+            NavHost(navController = navController, startDestination = "dogFeed") {
+                composable("dogFeed") { DogFeed(navController = navController, dogs = dogs) }
+                composable(
+                    "dogProfile/{id}",
+                    arguments = listOf(navArgument("id") { type = NavType.IntType })
+                ) { backStackEntry ->
+                    DogProfile(
+                        navController = navController,
+                        dog = dogs[backStackEntry.arguments?.getInt("id")!!]
                     )
                 }
             }
@@ -103,23 +76,26 @@ fun MyApp() {
     }
 }
 
-class Dog(val name: String, val age: Int, val isMonths: Boolean, val sex: Sex, val imageId: Int) {
-    enum class Sex(val sex: String) {
-        MALE("male"),
-        FEMALE("female")
+@Composable
+fun DogFeed(navController: NavController, dogs: List<Dog>) {
+    val scrollState = rememberLazyListState()
+    LazyColumn(state = scrollState) {
+        items(dogs) { dog ->
+            DogCard(
+                dog = dog,
+                onClick = { navController.navigate("dogProfile/${dog.id}") }
+            )
+        }
     }
 }
 
-class Age(val age: Int, val isMonths: Boolean) {
-
-}
-
 @Composable
-fun DogCard(dog: Dog) {
+fun DogCard(dog: Dog, onClick: () -> Unit) {
     Card(
         Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable(onClick = onClick),
         backgroundColor = MaterialTheme.colors.surface,
         elevation = 4.dp
     ) {
@@ -140,13 +116,13 @@ fun DogCard(dog: Dog) {
                         text = dog.name,
                         style = MaterialTheme.typography.h6,
                     )
-                    if (dog.sex == Dog.Sex.MALE) Icon(
-                        imageVector = Icons.Filled.Male,
-                        contentDescription = Dog.Sex.MALE.name
-                    ) else Icon(imageVector = Icons.Filled.Female, contentDescription = "female")
+                    Icon(
+                        imageVector = if (dog.sex == Dog.Sex.MALE) Icons.Filled.Male else Icons.Filled.Female,
+                        contentDescription = dog.sex.text
+                    )
                 }
                 Text(
-                    text = "${dog.age} ${if (dog.isMonths) "months" else "years"} old",
+                    text = "${dog.age} ${if (dog.isMonths) "month" else "year"}${if (dog.age > 1) "s" else ""} old",
                     style = MaterialTheme.typography.body1,
                 )
             }
@@ -154,18 +130,126 @@ fun DogCard(dog: Dog) {
     }
 }
 
-@Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable
-fun LightPreview() {
-    MyTheme {
-        MyApp()
+fun DogProfile(navController: NavController, dog: Dog) {
+
+    @Composable
+    fun SideBySideText(leftText: String, rightText: String) {
+        Row {
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 12.dp),
+                style = MaterialTheme.typography.h6,
+                text = leftText
+            )
+            Text(
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.h6,
+                text = rightText
+            )
+        }
+    }
+
+    Column {
+        Image(
+            painter = painterResource(dog.imageId),
+            contentDescription = null,
+            modifier = Modifier
+                .height(300.dp)
+                .fillMaxWidth()
+                .clip(shape = RoundedCornerShape(bottomStart = 4.dp, bottomEnd = 4.dp)),
+            contentScale = ContentScale.Crop
+        )
+        Column(
+            modifier = Modifier
+                .padding(12.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Text(text = dog.name, style = MaterialTheme.typography.h4)
+            Column(modifier = Modifier.padding(12.dp)) {
+                Text(text = "Attributes", style = MaterialTheme.typography.h5)
+                Spacer(Modifier.size(12.dp))
+                SideBySideText(
+                    leftText = "Breed",
+                    rightText = dog.breed
+                )
+                Row {
+                    Text(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 12.dp),
+                        style = MaterialTheme.typography.h6,
+                        text = "Sex"
+                    )
+                    Row(modifier = Modifier.weight(1f)) {
+                        Text(
+                            style = MaterialTheme.typography.h6,
+                            text = dog.sex.text
+                        )
+                        Icon(
+                            imageVector = if (dog.sex == Dog.Sex.MALE) Icons.Filled.Male else Icons.Filled.Female,
+                            contentDescription = dog.sex.text
+                        )
+                    }
+                }
+                SideBySideText(
+                    leftText = "Age",
+                    rightText = "${dog.age} ${if (dog.isMonths) "month" else "year"}${if (dog.age > 1) "s" else ""} old"
+                )
+                SideBySideText(
+                    leftText = "Weight",
+                    rightText = "${dog.weight} lbs"
+                )
+                SideBySideText(
+                    leftText = "Size",
+                    rightText = dog.size.text
+                )
+                Spacer(Modifier.size(12.dp))
+                Text(text = "Health", style = MaterialTheme.typography.h5)
+                Spacer(Modifier.size(12.dp))
+                SideBySideText(
+                    leftText = if (dog.sex == Dog.Sex.MALE) "Neutered" else "Spayed",
+                    rightText = if (dog.isFixed) "YES" else "NO"
+                )
+                SideBySideText(
+                    leftText = "Shots up to date",
+                    rightText = if (dog.hasShots) "YES" else "NO"
+                )
+                Spacer(Modifier.size(12.dp))
+                Text(text = "Characteristics", style = MaterialTheme.typography.h5)
+                Spacer(Modifier.size(12.dp))
+                Row {
+                    dog.characteristics.forEach { characteristic ->
+                        Text(
+                            text = characteristic,
+                            modifier = Modifier
+                                .background(
+                                    color = MaterialTheme.colors.primary,
+                                    shape = RoundedCornerShape(50)
+                                )
+                                .padding(8.dp)
+                        )
+                        Spacer(Modifier.size(4.dp))
+                    }
+                }
+            }
+        }
     }
 }
 
-@Preview("Dark Theme", widthDp = 360, heightDp = 640)
-@Composable
-fun DarkPreview() {
-    MyTheme(darkTheme = true) {
-        MyApp()
-    }
-}
+//@Preview("Light Theme", widthDp = 360, heightDp = 640)
+//@Composable
+//fun LightPreview() {
+//    MyTheme {
+//        MyApp()
+//    }
+//}
+
+//@Preview("Dark Theme", widthDp = 360, heightDp = 640)
+//@Composable
+//fun DarkPreview() {
+//    MyTheme(darkTheme = true) {
+//        MyApp()
+//    }
+//}
