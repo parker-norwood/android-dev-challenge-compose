@@ -2,17 +2,19 @@
 
 <!--- Replace <OWNER> with your Github Username and <REPOSITORY> with the name of your repository. -->
 <!--- You can find both of these in the url bar when you open your repository in github. -->
-![Workflow result](https://github.com/<OWNER>/<REPOSITORY>/workflows/Check/badge.svg)
+![Workflow result](https://github.com/parker-norwood/android-dev-challenge-compose/workflows/Check/badge.svg)
 
 
 ## :scroll: Description
 <!--- Describe your app in one or two sentences -->
-
+The homepage of the application contains a feed of dogs that are available for adoption.
+Once you have selected a dog, you see more information about the dog.
 
 ## :bulb: Motivation and Context
 <!--- Optionally point readers to interesting parts of your submission. -->
 <!--- What are you especially proud of? -->
-
+This project was done for the #AndroidDevChallenge week #1. I Haven't worked with Android in a
+number of years so it was fun to get back into it again and learn Jetpack Compose.
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
