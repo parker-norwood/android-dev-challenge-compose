@@ -25,9 +25,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -39,11 +49,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         setContent {
             MyTheme {
                 MyApp()
@@ -85,8 +94,10 @@ fun MyApp() {
                                 style = MaterialTheme.typography.h3,
                                 // @formatter:off
                                 text = "${(it / (60 * 60 * 1000)).toString().padStart(2, '0')}h " +
-                                        "${((it / (60 * 1000)) % 60).toString().padStart(2, '0')}m " +
-                                        "${((it / 1000) % 60).toString().padStart(2, '0')}s",
+                                    "${
+                                    ((it / (60 * 1000)) % 60).toString().padStart(2, '0')
+                                    }m " +
+                                    "${((it / 1000) % 60).toString().padStart(2, '0')}s",
                                 // @formatter:on
                             )
                         }
@@ -96,13 +107,15 @@ fun MyApp() {
                             .weight(1.3f)
                             .fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        keyboardActions = KeyboardActions(onDone = {
-                            timerViewModel.setTimeFromString(text)
-                            if (isRunning == true) {
-                                timerViewModel.stopTimer()
-                            } else timerViewModel.startTimer()
-                            focusManager.clearFocus()
-                        }),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                timerViewModel.setTimeFromString(text)
+                                if (isRunning == true) {
+                                    timerViewModel.stopTimer()
+                                } else timerViewModel.startTimer()
+                                focusManager.clearFocus()
+                            }
+                        ),
                         singleLine = true,
                         enabled = isRunning == false,
                         value = text,
@@ -111,7 +124,12 @@ fun MyApp() {
                             TransformedText(
                                 AnnotatedString(
                                     // @formatter:off
-                                    "${tmp.substring(0, 2)}h ${tmp.substring(2, 4)}m ${tmp.substring(4, 6)}s"
+                                    "${tmp.substring(0, 2)}h ${
+                                    tmp.substring(
+                                        2,
+                                        4
+                                    )
+                                    }m ${tmp.substring(4, 6)}s"
                                     // @formatter:on
                                 ),
                                 OffsetMapping.Identity
