@@ -1,12 +1,10 @@
-package com.example.androiddevchallenge
+package com.example.androiddevchallenge.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.outlined.Mail
@@ -17,6 +15,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.R
+import com.example.androiddevchallenge.ui.components.ActionButton
+import com.example.androiddevchallenge.ui.components.LoginField
 import com.example.androiddevchallenge.ui.theme.typography
 
 @Composable
@@ -47,17 +48,17 @@ fun LoginScreen() {
                     textAlign = TextAlign.Center
                 )
             }
-            CustomTextField(
+            LoginField(
                 modifier = Modifier.padding(bottom = 8.dp),
                 placeholder = "Email address",
                 iconImageVector = Icons.Outlined.Mail
             )
-            CustomTextField(
+            LoginField(
                 modifier = Modifier.padding(bottom = 16.dp),
                 placeholder = "Password",
                 iconImageVector = Icons.Filled.Password
             )
-            CustomButton(
+            ActionButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),

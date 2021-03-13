@@ -1,5 +1,6 @@
-package com.example.androiddevchallenge
+package com.example.androiddevchallenge.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,12 +13,12 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.ui.theme.shapes
 import com.example.androiddevchallenge.ui.theme.typography
 
 @Composable
-fun CustomTextField(
+fun LoginField(
     modifier: Modifier = Modifier,
     placeholder: String,
     iconImageVector: ImageVector

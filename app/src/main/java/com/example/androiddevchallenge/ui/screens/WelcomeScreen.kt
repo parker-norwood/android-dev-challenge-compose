@@ -1,17 +1,16 @@
-package com.example.androiddevchallenge
+package com.example.androiddevchallenge.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Surface
-import androidx.compose.material.darkColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.R
+import com.example.androiddevchallenge.ui.components.ActionButton
 import com.example.androiddevchallenge.ui.theme.purple
 
 @Composable
@@ -45,12 +44,12 @@ fun WelcomeScreen() {
             verticalArrangement = Arrangement.Bottom
         ) {
             Row(modifier = Modifier.padding(bottom = 32.dp)) {
-                CustomButton(
+                ActionButton(
                     modifier = Modifier.weight(1f),
                     text = "Get Started",
                     onClick = { /* TODO */ }
                 )
-                CustomButton(
+                ActionButton(
                     modifier = Modifier.weight(1f),
                     text = "Log In",
                     onClick = { /* TODO */ },
