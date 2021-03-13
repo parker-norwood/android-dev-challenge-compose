@@ -37,7 +37,7 @@ private val LightColorPalette = lightColors(
     background = purple,
     surface = white,
     onBackground = white,
-    onSurface = white
+    onSurface = gray900
 )
 
 @Composable

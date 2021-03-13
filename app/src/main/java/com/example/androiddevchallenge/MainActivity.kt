@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity() {
 // Start building your app here!
 @Composable
 fun MyApp() {
-    WelcomeScreen()
+//    WelcomeScreen()
+    LoginScreen()
 }
 
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
