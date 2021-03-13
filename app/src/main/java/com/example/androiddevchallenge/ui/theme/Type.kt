@@ -24,11 +24,11 @@ import androidx.compose.ui.unit.sp
 import com.example.androiddevchallenge.R
 
 val Montserrat = FontFamily(
-    Font(R.font.montserrat_extra_bold),
-    Font(R.font.montserrat_semi_bold),
-    Font(R.font.montserrat_medium),
-    Font(R.font.montserrat_light),
-    Font(R.font.montserrat_bold)
+    Font(R.font.montserrat_extra_bold, FontWeight.ExtraBold),
+    Font(R.font.montserrat_semi_bold, FontWeight.SemiBold),
+    Font(R.font.montserrat_medium, FontWeight.Medium),
+    Font(R.font.montserrat_light, FontWeight.Light),
+    Font(R.font.montserrat_bold, FontWeight.Bold),
 )
 
 // Set of Material typography styles to start with
@@ -63,7 +63,6 @@ val typography = Typography(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
         fontSize = 13.sp,
-        letterSpacing = 1.25.sp,
-        fontFeatureSettings = "small-caps" // TODO: verify this is correct
+        letterSpacing = 1.25.sp
     )
 )
