@@ -22,6 +22,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.androiddevchallenge.ui.screens.HomeScreen
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
+import com.example.androiddevchallenge.ui.screens.LoginScreen
+import com.example.androiddevchallenge.ui.screens.WelcomeScreen
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,9 +46,12 @@ class MainActivity : AppCompatActivity() {
 // Start building your app here!
 @Composable
 fun MyApp() {
-//    WelcomeScreen()
-//    LoginScreen()
-    HomeScreen()
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "welcomeScreen") {
+        composable("welcomeScreen") { WelcomeScreen(navController = navController) }
+        composable("loginScreen") { LoginScreen(navController = navController) }
+        composable("homeScreen") { HomeScreen() }
+    }
 }
 
 @Preview("Light Theme", widthDp = 360, heightDp = 640)

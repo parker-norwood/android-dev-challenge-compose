@@ -15,13 +15,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.navigate
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.components.ActionButton
 import com.example.androiddevchallenge.ui.components.LoginField
 import com.example.androiddevchallenge.ui.theme.typography
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     Surface(
         modifier = Modifier
             .fillMaxHeight()
@@ -56,14 +58,15 @@ fun LoginScreen() {
             LoginField(
                 modifier = Modifier.padding(bottom = 16.dp),
                 placeholder = "Password",
-                iconImageVector = Icons.Filled.Password
+                iconImageVector = Icons.Filled.Password,
+                isPassword = true
             )
             ActionButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 text = "Log In",
-                onClick = { /*TODO*/ }
+                onClick = { navController.navigate("homeScreen") }
             )
         }
     }

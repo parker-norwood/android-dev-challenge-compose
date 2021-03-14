@@ -9,12 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.navigate
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.components.ActionButton
 import com.example.androiddevchallenge.ui.theme.purple
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navController: NavController) {
     Surface(
         modifier = Modifier
             .fillMaxHeight()
@@ -47,12 +49,12 @@ fun WelcomeScreen() {
                 ActionButton(
                     modifier = Modifier.weight(1f),
                     text = "Get Started",
-                    onClick = { /* TODO */ }
+                    onClick = { }
                 )
                 ActionButton(
                     modifier = Modifier.weight(1f),
                     text = "Log In",
-                    onClick = { /* TODO */ },
+                    onClick = { navController.navigate("loginScreen") },
                     isInverse = true
                 )
             }
