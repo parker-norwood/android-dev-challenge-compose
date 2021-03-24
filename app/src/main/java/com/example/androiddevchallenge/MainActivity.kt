@@ -31,7 +31,6 @@ import com.example.androiddevchallenge.ui.screens.DayForecastScreen
 import com.example.androiddevchallenge.ui.screens.TenDayForecastScreen
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
