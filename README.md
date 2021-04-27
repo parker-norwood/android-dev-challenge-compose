@@ -1,3 +1,12 @@
+# Android Dev Challenge Compose '21
+
+### Challenges
+
+- [Week #1 - Puppy adoption app](https://github.com/parker-norwood/android-dev-challenge-compose/tree/week1)
+- [Week #2 - Countdown timer](https://github.com/parker-norwood/android-dev-challenge-compose/tree/week2)
+- [Week #3 - Speed round](https://github.com/parker-norwood/android-dev-challenge-compose/tree/week3)
+- [Week #4 - Weather app](https://github.com/parker-norwood/android-dev-challenge-compose/tree/week4)
+
 # Template repository
 
 Template repository for the Jetpack Compose [#AndroidDevChallenge](https://developer.android.com/dev-challenge).
